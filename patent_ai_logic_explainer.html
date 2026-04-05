@@ -1,0 +1,250 @@
+
+<style>
+  .wrap { font-family: var(--font-sans); padding: 1rem 0; }
+  .steps { display: flex; gap: 0; margin-bottom: 2rem; flex-wrap: wrap; }
+  .step-btn { flex: 1; min-width: 80px; padding: 8px 4px; font-size: 12px; text-align: center; cursor: pointer; border: 0.5px solid var(--color-border-secondary); background: var(--color-background-secondary); color: var(--color-text-secondary); transition: all .2s; }
+  .step-btn:first-child { border-radius: var(--border-radius-md) 0 0 var(--border-radius-md); }
+  .step-btn:last-child { border-radius: 0 var(--border-radius-md) var(--border-radius-md) 0; }
+  .step-btn.active { background: var(--color-background-primary); color: var(--color-text-primary); font-weight: 500; border-bottom: 2px solid #0D9488; }
+  .panel { display: none; }
+  .panel.active { display: block; }
+  .card { background: var(--color-background-primary); border: 0.5px solid var(--color-border-tertiary); border-radius: var(--border-radius-lg); padding: 1rem 1.25rem; margin-bottom: 1rem; }
+  .badge { display: inline-block; font-size: 11px; padding: 2px 10px; border-radius: 20px; font-weight: 500; margin-right: 6px; }
+  .badge-teal { background: #E1F5EE; color: #0F6E56; }
+  .badge-amber { background: #FAEEDA; color: #854F0B; }
+  .badge-purple { background: #EEEDFE; color: #3C3489; }
+  .badge-blue { background: #E6F1FB; color: #0C447C; }
+  .badge-coral { background: #FAECE7; color: #712B13; }
+  h3 { font-size: 16px; font-weight: 500; margin: 0 0 8px; color: var(--color-text-primary); }
+  p { font-size: 14px; color: var(--color-text-secondary); line-height: 1.7; margin: 0 0 8px; }
+  .code { font-family: var(--font-mono); font-size: 12px; background: var(--color-background-secondary); border-radius: var(--border-radius-md); padding: 10px 14px; margin: 8px 0; color: var(--color-text-primary); white-space: pre-wrap; }
+  .row { display: flex; gap: 12px; flex-wrap: wrap; }
+  .col { flex: 1; min-width: 200px; }
+  .flow { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; margin: 12px 0; }
+  .flow-box { background: var(--color-background-secondary); border: 0.5px solid var(--color-border-secondary); border-radius: var(--border-radius-md); padding: 6px 12px; font-size: 13px; color: var(--color-text-primary); }
+  .arrow { color: #0D9488; font-size: 16px; }
+  .metric { text-align: center; padding: 12px; background: var(--color-background-secondary); border-radius: var(--border-radius-md); }
+  .metric-num { font-size: 22px; font-weight: 500; color: #0D9488; }
+  .metric-label { font-size: 12px; color: var(--color-text-secondary); margin-top: 2px; }
+  table { width: 100%; font-size: 13px; border-collapse: collapse; }
+  td, th { padding: 8px 10px; border-bottom: 0.5px solid var(--color-border-tertiary); color: var(--color-text-secondary); text-align: left; }
+  th { font-weight: 500; color: var(--color-text-primary); background: var(--color-background-secondary); }
+  .highlight { color: #0D9488; font-weight: 500; }
+</style>
+
+<div class="wrap">
+  <div style="margin-bottom: 1.5rem;">
+    <div style="font-size: 18px; font-weight: 500; margin-bottom: 4px; color: var(--color-text-primary);">論文・特許 AIラベリング — ロジック解説</div>
+    <div style="font-size: 13px; color: var(--color-text-secondary);">ステップをクリックして仕組みを確認してください</div>
+  </div>
+
+  <div class="steps">
+    <div class="step-btn active" onclick="show(0)">① PDF読込</div>
+    <div class="step-btn" onclick="show(1)">② チャンク分割</div>
+    <div class="step-btn" onclick="show(2)">③ Embedding</div>
+    <div class="step-btn" onclick="show(3)">④ クラスタリング</div>
+    <div class="step-btn" onclick="show(4)">⑤ タグ生成</div>
+    <div class="step-btn" onclick="show(5)">⑥ 分類マッピング</div>
+  </div>
+
+  <!-- PANEL 0 -->
+  <div class="panel active" id="p0">
+    <div class="card">
+      <span class="badge badge-teal">入力</span>
+      <h3>PDF読み込み・テキスト抽出</h3>
+      <p>PyMuPDF（fitz）ライブラリを使って論文・特許PDFからテキストを取り出す。PDFは画像や図表が混在しているため、テキストレイヤーのみを抽出し、不要な記号・改行・空白を正規化する。</p>
+      <div class="code">doc = fitz.open("論文.pdf")
+for page in doc:
+    text = page.get_text()   # テキスト抽出
+text = clean_text(text)      # 正規化</div>
+      <div class="row" style="margin-top: 12px;">
+        <div class="metric"><div class="metric-num">5</div><div class="metric-label">PDFファイル</div></div>
+        <div class="metric"><div class="metric-num">〜150</div><div class="metric-label">チャンク数（分割後）</div></div>
+        <div class="metric"><div class="metric-num">300</div><div class="metric-label">文字/チャンク</div></div>
+      </div>
+    </div>
+    <div class="card">
+      <h3>なぜテキスト正規化が必要か</h3>
+      <p>PDFは「改行が多い」「図表の番号が混じる」「英数字と日本語が混在」するため、そのままベクトル化すると精度が落ちる。クリーニングで不要ノイズを除去してから次のステップへ渡す。</p>
+      <div class="flow">
+        <div class="flow-box">生のPDFテキスト</div>
+        <div class="arrow">→</div>
+        <div class="flow-box">改行・空白の正規化</div>
+        <div class="arrow">→</div>
+        <div class="flow-box">記号除去</div>
+        <div class="arrow">→</div>
+        <div class="flow-box">クリーンテキスト</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- PANEL 1 -->
+  <div class="panel" id="p1">
+    <div class="card">
+      <span class="badge badge-teal">前処理</span>
+      <h3>スライディングウィンドウでチャンク分割</h3>
+      <p>論文は長文（数千〜数万文字）のため、文書まるごとベクトル化すると情報が平均化されて精度が落ちる。300文字単位・100文字オーバーラップで分割することで、局所的な内容を保ちつつ文脈の連続性も確保する。</p>
+      <div class="code">chunk_size  = 300   # ウィンドウサイズ
+stride      = 100   # オーバーラップ
+
+while start < len(text):
+    chunk = text[start : start + chunk_size]
+    chunks.append(chunk)
+    start += chunk_size - stride  # 100文字重複</div>
+    </div>
+    <div class="card">
+      <h3>オーバーラップを入れる理由</h3>
+      <p>チャンクの境界で重要な文章が分断されるリスクを防ぐ。100文字のオーバーラップにより、前後のチャンクに同じ内容が含まれるため、文脈が途切れない。</p>
+      <svg width="100%" viewBox="0 0 640 120" style="margin-top: 8px;">
+        <defs><marker id="arr2" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M2 1L8 5L2 9" fill="none" stroke="context-stroke" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></marker></defs>
+        <rect x="20" y="20" width="600" height="30" rx="4" fill="var(--color-background-secondary)" stroke="var(--color-border-secondary)" stroke-width="0.5"/>
+        <text class="ts" x="320" y="40" text-anchor="middle" font-size="12" fill="var(--color-text-secondary)">生のテキスト（長文）</text>
+        <rect x="20" y="70" width="300" height="30" rx="4" fill="#E1F5EE" stroke="#0F6E56" stroke-width="0.5"/>
+        <text x="170" y="90" text-anchor="middle" font-size="12" fill="#0F6E56">チャンク 1（300文字）</text>
+        <rect x="220" y="70" width="300" height="30" rx="4" fill="#E6F1FB" stroke="#185FA5" stroke-width="0.5"/>
+        <text x="370" y="90" text-anchor="middle" font-size="12" fill="#185FA5">チャンク 2（300文字）</text>
+        <rect x="220" y="68" width="100" height="34" rx="4" fill="#FAEEDA" stroke="#854F0B" stroke-width="0.5" opacity="0.7"/>
+        <text x="270" y="89" text-anchor="middle" font-size="11" fill="#854F0B">重複</text>
+      </svg>
+    </div>
+  </div>
+
+  <!-- PANEL 2 -->
+  <div class="panel" id="p2">
+    <div class="card">
+      <span class="badge badge-purple">コア技術</span>
+      <h3>Embedding（テキスト → ベクトル）</h3>
+      <p>テキストを384次元の数値ベクトルに変換する。意味が似ている文章はベクトル空間上で近い位置に配置される。今回は<span class="highlight">multilingual-e5-small</span>を使用（日本語・英語の両方に対応した多言語モデル）。</p>
+      <div class="code">model = SentenceTransformer("intfloat/multilingual-e5-small")
+emb = model.encode("passage: " + text,
+                    normalize_embeddings=True)
+# → shape: (384,)  384次元ベクトル</div>
+    </div>
+    <div class="card">
+      <h3>なぜ「passage: 」をつけるか</h3>
+      <p>multilingual-e5は検索用途に特化した設計で、文書側には <span class="highlight">passage:</span>、クエリ側には <span class="highlight">query:</span> のプレフィックスをつけることで精度が大幅に向上する（モデルの学習仕様）。</p>
+      <div class="row">
+        <div class="col">
+          <div class="card" style="margin: 0;">
+            <div style="font-size: 12px; color: var(--color-text-secondary); margin-bottom: 6px;">文書（論文チャンク）</div>
+            <div class="code" style="margin: 0;">"passage: 空調システムの..."</div>
+          </div>
+        </div>
+        <div class="col">
+          <div class="card" style="margin: 0;">
+            <div style="font-size: 12px; color: var(--color-text-secondary); margin-bottom: 6px;">検索クエリ</div>
+            <div class="code" style="margin: 0;">"query: 省エネ制御技術"</div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="card">
+      <h3>APIの選択肢</h3>
+      <table>
+        <tr><th>モデル</th><th>精度</th><th>コスト</th><th>日本語</th></tr>
+        <tr><td>multilingual-e5-small</td><td>◯</td><td><span class="highlight">無料（ローカル）</span></td><td>◎</td></tr>
+        <tr><td>text-embedding-3-small</td><td>◎</td><td>有料（安い）</td><td>◎</td></tr>
+        <tr><td>text-embedding-3-large</td><td>◎◎</td><td>有料（高い）</td><td>◎</td></tr>
+      </table>
+    </div>
+  </div>
+
+  <!-- PANEL 3 -->
+  <div class="panel" id="p3">
+    <div class="card">
+      <span class="badge badge-amber">自動分類</span>
+      <h3>HDBSCANクラスタリング</h3>
+      <p>ベクトル化されたチャンクを、意味的な近さでグループに分ける。<span class="highlight">HDBSCAN</span>はk-meansと違い「クラスタ数を事前指定不要」で、密度の低い点を「ノイズ」として扱える。論文・特許のように多様なトピックが混在するデータに向いている。</p>
+      <div class="code">clusterer = hdbscan.HDBSCAN(
+    min_cluster_size=3,  # 最小3チャンクでグループ形成
+    min_samples=1,
+    metric="euclidean",
+)
+labels = clusterer.fit_predict(embeddings)
+# -1 = ノイズ（どのクラスタにも属さない）</div>
+    </div>
+    <div class="card">
+      <h3>k-means vs HDBSCAN</h3>
+      <table>
+        <tr><th></th><th>k-means</th><th>HDBSCAN</th></tr>
+        <tr><td>クラスタ数</td><td>事前指定が必要</td><td><span class="highlight">自動決定</span></td></tr>
+        <tr><td>ノイズ扱い</td><td>必ずどこかに割当</td><td><span class="highlight">-1でノイズ扱い可</span></td></tr>
+        <tr><td>形状</td><td>球状のみ</td><td><span class="highlight">任意形状OK</span></td></tr>
+        <tr><td>論文・特許向き</td><td>△</td><td><span class="highlight">◎</span></td></tr>
+      </table>
+    </div>
+  </div>
+
+  <!-- PANEL 4 -->
+  <div class="panel" id="p4">
+    <div class="card">
+      <span class="badge badge-blue">LLM活用</span>
+      <h3>Claude APIでタグ・キーワード自動生成</h3>
+      <p>クラスタリングで作られた各グループの代表チャンクをClaudeに渡し、「このグループを表す技術領域名とキーワード」を生成させる。クラスタリング → LLMタグ生成の順番が重要（逆にすると精度が落ちる）。</p>
+      <div class="code">prompt = f"""
+以下のテキスト群のトピックをJSONで返してください。
+
+テキスト: {sample_texts}
+
+出力形式:
+{{"topic_name": "トピック名",
+  "keywords": ["kw1", "kw2", "kw3"]}}
+"""
+response = claude.messages.create(
+    model="claude-haiku-4-5-20251001",
+    messages=[{"role": "user", "content": prompt}]
+)</div>
+    </div>
+    <div class="card">
+      <h3>APIキーなし時のフォールバック</h3>
+      <p>Claude APIが使えない場合は、チャンク内の頻出単語をキーワードとして代替使用する。精度は落ちるが動作自体は継続する設計になっている。</p>
+      <div class="flow">
+        <div class="flow-box">Claude API ✅</div>
+        <div class="arrow">→</div>
+        <div class="flow-box">意味を理解したタグ生成</div>
+      </div>
+      <div class="flow">
+        <div class="flow-box">APIなし ❌</div>
+        <div class="arrow">→</div>
+        <div class="flow-box">頻出単語でフォールバック</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- PANEL 5 -->
+  <div class="panel" id="p5">
+    <div class="card">
+      <span class="badge badge-coral">マッピング</span>
+      <h3>事前定義カテゴリへのマッピング</h3>
+      <p>検出したトピックを、あらかじめ定義した仮説カテゴリ（A〜G）に自動分類する。手法はシンプルで、トピックのベクトルと各カテゴリ説明文のベクトルのコサイン類似度を計算し、最も近いカテゴリに割り当てる。</p>
+      <div class="code">topic_emb = model.encode(["passage: " + topic_text])
+cat_embs  = model.encode(["passage: " + cat for cat in categories])
+
+# コサイン類似度で最近傍カテゴリを特定
+sims = cosine_similarity(topic_emb, cat_embs)
+best_category = categories[argmax(sims)]
+score = max(sims)   # 類似度スコア（80〜90%台が目安）</div>
+    </div>
+    <div class="card">
+      <h3>事前定義カテゴリ（仮説A〜G）</h3>
+      <table>
+        <tr><th>ID</th><th>カテゴリ</th></tr>
+        <tr><td><span class="highlight">A</span></td><td>テナント満足度・サービス品質分析</td></tr>
+        <tr><td><span class="highlight">B</span></td><td>データ基盤・データ整備・ETL</td></tr>
+        <tr><td><span class="highlight">C</span></td><td>マルチバリアントセンサー異常検知</td></tr>
+        <tr><td><span class="highlight">D</span></td><td>設備劣化予測・メンテナンス最適化</td></tr>
+        <tr><td><span class="highlight">E</span></td><td>地震後建物リスク自動評価</td></tr>
+        <tr><td><span class="highlight">F</span></td><td>電力異常検知・エネルギー最適化</td></tr>
+        <tr><td><span class="highlight">G</span></td><td>インシデントテキスト分析・故障分類</td></tr>
+      </table>
+      <p style="margin-top: 12px; font-size: 13px;">カテゴリの説明文を変えるだけで、異なるドメインにも転用可能。これがこのシステムの汎用性の高さ。</p>
+    </div>
+  </div>
+</div>
+
+<script>
+function show(i) {
+  document.querySelectorAll('.panel').forEach((p,j) => p.classList.toggle('active', i===j));
+  document.querySelectorAll('.step-btn').forEach((b,j) => b.classList.toggle('active', i===j));
+}
+</script>

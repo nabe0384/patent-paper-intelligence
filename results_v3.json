@@ -1,0 +1,350 @@
+[
+  {
+    "cluster_id": 0,
+    "topic_name": "DC マイクログリッドの蓄電池システム制御",
+    "keywords": [
+      "DC Bus Signaling",
+      "SoC 自己収束",
+      "蓄電池システム"
+    ],
+    "mapped_category": "F: 電力異常検知・エネルギー最適化",
+    "similarity_score": 0.826,
+    "chunk_count": 18,
+    "source_files": [
+      "2022_72.pdf"
+    ]
+  },
+  {
+    "cluster_id": 1,
+    "topic_name": "データセンター冷却システムの気流制御",
+    "keywords": [
+      "エネルギー効率",
+      "気流制御",
+      "気圧センサー"
+    ],
+    "mapped_category": "D: 設備劣化予測・メンテナンス最適化",
+    "similarity_score": 0.803,
+    "chunk_count": 4,
+    "source_files": [
+      "2013.3_189.pdf"
+    ]
+  },
+  {
+    "cluster_id": 2,
+    "topic_name": "数値データ・測定値",
+    "keywords": [
+      "数値",
+      "測定",
+      "データセット",
+      "統計"
+    ],
+    "mapped_category": "A: テナント満足度・サービス品質分析",
+    "similarity_score": 0.853,
+    "chunk_count": 16,
+    "source_files": [
+      "2013.3_189.pdf"
+    ]
+  },
+  {
+    "cluster_id": 3,
+    "topic_name": "データセンター冷却技術",
+    "keywords": [
+      "高密度機器",
+      "エアフロー管理",
+      "アイル・キャッピング"
+    ],
+    "mapped_category": "D: 設備劣化予測・メンテナンス最適化",
+    "similarity_score": 0.816,
+    "chunk_count": 4,
+    "source_files": [
+      "2009.19_436.pdf"
+    ]
+  },
+  {
+    "cluster_id": 4,
+    "topic_name": "データセンター冷却システム",
+    "keywords": [
+      "Cold Aisle",
+      "Hot Aisle",
+      "温度管理",
+      "気流制御"
+    ],
+    "mapped_category": "G: インシデントテキスト分析・故障分類",
+    "similarity_score": 0.84,
+    "chunk_count": 9,
+    "source_files": [
+      "2009.19_436.pdf"
+    ]
+  },
+  {
+    "cluster_id": 5,
+    "topic_name": "データセンター冷却システム",
+    "keywords": [
+      "Cold Aisle",
+      "Hot Aisle",
+      "気流制御",
+      "熱管理",
+      "Raised Floor"
+    ],
+    "mapped_category": "G: インシデントテキスト分析・故障分類",
+    "similarity_score": 0.847,
+    "chunk_count": 4,
+    "source_files": [
+      "2009.19_436.pdf"
+    ]
+  },
+  {
+    "cluster_id": 6,
+    "topic_name": "データセンター冷却システム",
+    "keywords": [
+      "コールドアイル",
+      "ホットスポット",
+      "温度分布",
+      "気流制御"
+    ],
+    "mapped_category": "F: 電力異常検知・エネルギー最適化",
+    "similarity_score": 0.82,
+    "chunk_count": 3,
+    "source_files": [
+      "2009.19_436.pdf"
+    ]
+  },
+  {
+    "cluster_id": 7,
+    "topic_name": "微差圧計による空調システムの性能測定",
+    "keywords": [
+      "微差圧計",
+      "差圧測定",
+      "空気調和",
+      "CMM流量",
+      "冷房性能"
+    ],
+    "mapped_category": "G: インシデントテキスト分析・故障分類",
+    "similarity_score": 0.824,
+    "chunk_count": 5,
+    "source_files": [
+      "2013.3_273.pdf",
+      "2013.3_189.pdf"
+    ]
+  },
+  {
+    "cluster_id": 8,
+    "topic_name": "ヒートポンプシステム制御",
+    "keywords": [
+      "圧縮サイクル",
+      "ポンプサイクル",
+      "切替条件"
+    ],
+    "mapped_category": "G: インシデントテキスト分析・故障分類",
+    "similarity_score": 0.818,
+    "chunk_count": 3,
+    "source_files": [
+      "2013.3_273.pdf"
+    ]
+  },
+  {
+    "cluster_id": 9,
+    "topic_name": "データセンター空調システムの省エネ化",
+    "keywords": [
+      "データセンター",
+      "空調システム",
+      "エネルギー効率化"
+    ],
+    "mapped_category": "F: 電力異常検知・エネルギー最適化",
+    "similarity_score": 0.813,
+    "chunk_count": 3,
+    "source_files": [
+      "2013.3_241.pdf",
+      "2013.3_273.pdf",
+      "2013.3_189.pdf"
+    ]
+  },
+  {
+    "cluster_id": 10,
+    "topic_name": "間接外気冷房併用空調機の開発",
+    "keywords": [
+      "外気冷房",
+      "ポンプサイクル",
+      "消費電力低減"
+    ],
+    "mapped_category": "F: 電力異常検知・エネルギー最適化",
+    "similarity_score": 0.828,
+    "chunk_count": 24,
+    "source_files": [
+      "2013.3_273.pdf"
+    ]
+  },
+  {
+    "cluster_id": 11,
+    "topic_name": "データセンタ用省エネ空調システムの開発",
+    "keywords": [
+      "データセンタ",
+      "間接外気冷房",
+      "ポンプサイクル",
+      "省エネ空調",
+      "性能特性"
+    ],
+    "mapped_category": "G: インシデントテキスト分析・故障分類",
+    "similarity_score": 0.835,
+    "chunk_count": 3,
+    "source_files": [
+      "2013.3_273.pdf"
+    ]
+  },
+  {
+    "cluster_id": 12,
+    "topic_name": "データセンター冷却システムの最適化",
+    "keywords": [
+      "コールドアイル",
+      "ホットアイル",
+      "気流制御"
+    ],
+    "mapped_category": "G: インシデントテキスト分析・故障分類",
+    "similarity_score": 0.834,
+    "chunk_count": 4,
+    "source_files": [
+      "2009.19_436.pdf"
+    ]
+  },
+  {
+    "cluster_id": 13,
+    "topic_name": "データセンター冷却システムの特性評価",
+    "keywords": [
+      "冷水流量",
+      "電力消費量",
+      "シミュレーション検証",
+      "空調システム",
+      "チラー"
+    ],
+    "mapped_category": "G: インシデントテキスト分析・故障分類",
+    "similarity_score": 0.838,
+    "chunk_count": 3,
+    "source_files": [
+      "2013.3_241.pdf"
+    ]
+  },
+  {
+    "cluster_id": 14,
+    "topic_name": "空調システムの運転効率測定",
+    "keywords": [
+      "空冷チリングユニット",
+      "消費電力",
+      "冷水温度設定"
+    ],
+    "mapped_category": "F: 電力異常検知・エネルギー最適化",
+    "similarity_score": 0.833,
+    "chunk_count": 11,
+    "source_files": [
+      "2013.3_241.pdf"
+    ]
+  },
+  {
+    "cluster_id": 15,
+    "topic_name": "データセンター冷水空調システムの電力削減制御",
+    "keywords": [
+      "消費電力削減",
+      "送水温度制御",
+      "ポンプ動力",
+      "シミュレーション精度評価",
+      "二次側吐出圧力"
+    ],
+    "mapped_category": "F: 電力異常検知・エネルギー最適化",
+    "similarity_score": 0.84,
+    "chunk_count": 7,
+    "source_files": [
+      "2013.3_241.pdf"
+    ]
+  },
+  {
+    "cluster_id": 16,
+    "topic_name": "空調システムの省エネ制御実験",
+    "keywords": [
+      "チラー",
+      "ポンプ制御",
+      "消費電力"
+    ],
+    "mapped_category": "G: インシデントテキスト分析・故障分類",
+    "similarity_score": 0.835,
+    "chunk_count": 5,
+    "source_files": [
+      "2013.3_241.pdf"
+    ]
+  },
+  {
+    "cluster_id": 17,
+    "topic_name": "データセンター冷却システムの効率化",
+    "keywords": [
+      "コールドアイルキャッピング",
+      "空調機運転",
+      "温度分布"
+    ],
+    "mapped_category": "G: インシデントテキスト分析・故障分類",
+    "similarity_score": 0.831,
+    "chunk_count": 25,
+    "source_files": [
+      "2009.19_436.pdf"
+    ]
+  },
+  {
+    "cluster_id": 18,
+    "topic_name": "データセンター空調システムの性能検証",
+    "keywords": [
+      "コールドアイルキャッピング",
+      "ラック型空調機",
+      "パッケージ空調機",
+      "送風量制御",
+      "データセンター冷却"
+    ],
+    "mapped_category": "G: インシデントテキスト分析・故障分類",
+    "similarity_score": 0.848,
+    "chunk_count": 4,
+    "source_files": [
+      "2013.3_189.pdf"
+    ]
+  },
+  {
+    "cluster_id": 19,
+    "topic_name": "データセンター空調システムの省エネ化",
+    "keywords": [
+      "ラック型空調機",
+      "アイルキャッピング",
+      "送風動力削減"
+    ],
+    "mapped_category": "G: インシデントテキスト分析・故障分類",
+    "similarity_score": 0.833,
+    "chunk_count": 5,
+    "source_files": [
+      "2013.3_189.pdf"
+    ]
+  },
+  {
+    "cluster_id": 20,
+    "topic_name": "データセンター冷却システムの圧力分布",
+    "keywords": [
+      "コールドアイルキャッピング",
+      "ラック型空調機",
+      "圧力分布"
+    ],
+    "mapped_category": "G: インシデントテキスト分析・故障分類",
+    "similarity_score": 0.837,
+    "chunk_count": 4,
+    "source_files": [
+      "2013.3_189.pdf"
+    ]
+  },
+  {
+    "cluster_id": 21,
+    "topic_name": "データセンター空調の省エネ制御",
+    "keywords": [
+      "アイルキャッピング",
+      "ラック型空調機",
+      "圧力センサ"
+    ],
+    "mapped_category": "G: インシデントテキスト分析・故障分類",
+    "similarity_score": 0.841,
+    "chunk_count": 11,
+    "source_files": [
+      "2013.3_189.pdf"
+    ]
+  }
+]
